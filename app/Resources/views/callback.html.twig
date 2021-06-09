@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body onload="document.forms['company_select'].submit()">
+        {% block body %}
+            <form method="POST" action="https://appcenter.intuit.com/connect/oauth2?client_id=ABKgyqYcFRRkMffhc8WBPZ8RFtnYfePHMA4bAl5W1dvjdS8OVH&amp;scope=com.intuit.quickbooks.accounting&amp;redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fcallback&amp;response_type=code&amp;state=LSHMR" name="company_select"></form>      
+        {% endblock %}
+    </body>
+</html>

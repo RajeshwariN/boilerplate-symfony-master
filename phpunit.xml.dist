@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- https://phpunit.de/manual/current/en/appendixes.configuration.html -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.8/phpunit.xsd"
+         backupGlobals="false"
+         colors="true"
+         stopOnFailure="false"
+         bootstrap="vendor/autoload.php"
+         convertErrorsToExceptions="false"
+         convertNoticesToExceptions="false"
+         convertWarningsToExceptions="false"
+>
+    <php>
+        <ini name="error_reporting" value="-1" />
+        <server name="KERNEL_CLASS" value="AppKernel" />
+    </php>
+
+    <testsuites>
+        <testsuite name="Project Test Suite">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <logging>
+        <log type="coverage-clover" target="tests/report/tests-clover.xml" />
+        <log type="junit" target="tests/report/tests-junit.xml" />
+        <log type="coverage-html" target="tests/report" />
+        <log type="testdox-html" target="tests/report/testdox.html" />
+    </logging>
+
+    <filter>
+        <whitelist>
+            <directory>src</directory>
+            <exclude>
+                <directory>src/AppBundle/Entity</directory>
+                <directory>src/AppBundle/Constants</directory>
+                <directory>src/AppBundle/Controller</directory>
+                <directory>src/AppBundle/EventListener</directory>
+                <directory>src/AppBundle/Repository</directory>
+                <directory>src/AppBundle/CustomClasses</directory>
+                <file>src/AppBundle/AppBundle.php</file>
+                <file>src/AppBundle/Service/ApiResponse.php</file>
+                <file>src/AppBundle/Service/BaseService.php</file>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>
