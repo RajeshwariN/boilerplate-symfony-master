@@ -42,7 +42,7 @@ class QBOAuthController extends FOSRestController
         //Insert/Update the OAuth2Token
         $accessToken = $OAuth2LoginHelper->exchangeAuthorizationCodeForToken($parseUrl['code'], $parseUrl['realmId']);
         $dataService->updateOAuth2Token($accessToken);
-
+        
         $token = $accessToken->getAccessToken();
         $refreshToken = $accessToken->getRefreshToken();
         $realmId = $accessToken->getRealmID();

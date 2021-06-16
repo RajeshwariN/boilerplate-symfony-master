@@ -29,20 +29,22 @@ class QuickBooksService
 
         $em = $this->container->get('doctrine')->getManager();
         $tokenDetails = $em->getRepository(QBOTokens::class)->findOneBy(['realmId' => $realmId]);
-       
-        $accessToken = $tokenDetails->getAccessToken();
-        $refreshToken = $tokenDetails->getRefreshToken();
-        
+               
         $dataServiceArr = [
             'auth_mode'       => $authMode,
             'ClientID'        => $ClientID,
             'ClientSecret'    => $ClientSecret,
-            'accessTokenKey'  => $accessToken,
             'QBORealmID'      => $realmId,
             'baseUrl'         => $baseUrl,
             'RedirectURI'     => $redirectURI,
             'scope'           => $scope
         ];
+
+        if($tokenDetails){
+            $accessToken = $tokenDetails->getAccessToken();
+            $refreshToken = $tokenDetails->getRefreshToken();
+            $dataServiceArr['accessTokenKey'] = $accessToken;
+        }
         if(!$connect)
             $dataServiceArr['refreshTokenKey'] = $refreshToken;
 
