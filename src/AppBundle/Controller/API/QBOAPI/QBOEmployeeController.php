@@ -64,7 +64,7 @@ class QBOEmployeeController extends FOSRestController
                 }
             }
         }
-        return new JsonResponse(['code' => Response::HTTP_OK, 'message' => 'Employee List Syned Successfully']);
+        return new JsonResponse(['code' => Response::HTTP_OK, 'message' => 'Employee List Fetched Successfully']);
     
     }
 }
