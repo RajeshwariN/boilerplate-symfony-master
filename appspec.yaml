@@ -1,58 +1,22 @@
-version: 0.1
-phases:
- install:
-   commands:
-     - |
-         export DEBIAN_FRONTEND=noninteractive
-         #Install php7.2
-         apt-get update
-         apt-get install -y  software-properties-common
-         LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
-         apt-get update
-         yum install -y httpd httpd-tools mod_ssl
-         systemctl enable httpd 
-         systemctl start httpd 
-         # Install PHP
-         apt-get install -y php7.4\
-                  php7.4-ldap \
-                  php7.4-xml \
-                  php7.4-xmlrpc \
-                  php7.4-zip \
-                  php7.4-mysql \
-                  php7.4-mbstring \
-                  php7.4-mcrypt \
-                  php7.4-gd \
-                  php7.4-readline \
-                  php7.4-opcache \
-                  php7.4-xdebug \
-                  php7.4-dom \
-                  php-xdebug \
-                  php7.4-curl \
-                  unzip
-         #Enable xdebug - phpunit uses this for code coverage
-         phpenmod xdebug
-         #Install composer
-         php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-         php composer-setup.php ;
-         php -r "unlink('composer-setup.php');" ;
-         mv composer.phar /usr/local/bin/composer
-         #Various handy node based dev tools - do you need these during your build? Comment if not.
-         #npm install -g gulp
-         #npm install -g grunt
-         #npm install -g webpack
-     # Start Mysql if you need it
-     # - apt-get install -y mysql-server
-     # - su mysql -s /bin/bash -c "/usr/sbin/mysqld" &
- build:
-   commands:
-     - echo Build started on `date`
-     - echo Installing composer deps
-     - composer install --no-progress --no-suggest
-
- post_build:
-   commands:
-     - echo Build completed on `date`
-     # Do you need to do this? In many cases phpunit will use sqllite or similar to avoid the need for a real DB.
-     # If you don't need it delete it
-     # - /usr/bin/mysql  -u root -e "GRANT ALL ON *.* TO 'test'@'localhost' IDENTIFIED BY '' WITH GRANT OPTION"
-     # - mysqladmin -u test create test
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /var/www/html/boilerplate-symfony-master
+hooks:
+  BeforeInstall:
+    - location: scripts/install_dependencies.sh
+      timeout: 300
+      runas: root
+  AfterInstall:
+    - location: scripts/change_permissions.sh
+      timeout: 300
+      runas: root
+  ApplicationStart:
+    - location: scripts/start_server.sh
+      timeout: 300
+      runas: root
+  ApplicationStop:
+    - location: scripts/stop_server.sh
+      timeout: 300
+      runas: root
